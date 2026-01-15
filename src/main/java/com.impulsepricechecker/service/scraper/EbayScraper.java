@@ -74,6 +74,10 @@ public class EbayScraper implements Scraper {
             Request request = new Request.Builder()
                     .url(url)
                     .header("Authorization", "Bearer " + token)
+                    .header(
+                            "X-EBAY-C-ENDUSERCTX",
+                            "affiliateCampaignId=5339137464"
+                    )
                     .build();
             Response response = httpClient.newCall(request).execute();
             System.out.println("Response code: " + response.code());
