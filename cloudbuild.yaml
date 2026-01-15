@@ -1,33 +1,12 @@
 steps:
-  # Build the Docker image
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'build'
-      - '-t'
-      - 'northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/backend/impulse-price-extension:$COMMIT_SHA'
-      - '-t'
-      - 'northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/backend/impulse-price-extension:latest'
-      - '.'
-
-  # Push to Container Registry
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'push'
-      - 'northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/backend/impulse-price-extension:$COMMIT_SHA'
-
-  # Deploy to Cloud Run
+  # Deploy to Cloud Run with environment variables
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       - 'run'
       - 'deploy'
       - 'impulse-price-extension'
-      - '--image=northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/backend/impulse-price-extension:$COMMIT_SHA'
+      - '--source=.'
       - '--region=northamerica-northeast1'
       - '--platform=managed'
       - '--allow-unauthenticated'
       - '--set-env-vars=_EBAY_CLIENT_ID=${_EBAY_CLIENT_ID},_EBAY_CLIENT_SECRET=${_EBAY_CLIENT_SECRET},_EBAY_DEV_ID=${_EBAY_DEV_ID},_EBAY_WEBHOOK_VERIFICATION_TOKEN=${_EBAY_WEBHOOK_VERIFICATION_TOKEN},_EBAY_WEBHOOK_ENDPOINT_URL=${_EBAY_WEBHOOK_ENDPOINT_URL}'
-      - '--memory=1Gi'
-
-images:
-  - 'northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/backend/impulse-price-extension:$COMMIT_SHA'
-  - 'northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/backend/impulse-price-extension:latest'
