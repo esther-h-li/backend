@@ -1,0 +1,12 @@
+steps:
+  # Deploy to Cloud Run with environment variables
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'impulse-price-extension'
+      - '--source=.'
+      - '--region=northamerica-northeast1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--set-env-vars=_EBAY_CLIENT_ID=${_EBAY_CLIENT_ID},_EBAY_CLIENT_SECRET=${_EBAY_CLIENT_SECRET},_EBAY_DEV_ID=${_EBAY_DEV_ID},_EBAY_WEBHOOK_VERIFICATION_TOKEN=${_EBAY_WEBHOOK_VERIFICATION_TOKEN},_EBAY_WEBHOOK_ENDPOINT_URL=${_EBAY_WEBHOOK_ENDPOINT_URL}'
