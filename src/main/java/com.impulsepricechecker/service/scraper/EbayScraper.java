@@ -1,23 +1,3 @@
-/*
- * MIGRATION PLAN - When eBay API key arrives:
- *
- * 1. Add OkHttpClient import and field
- * 2. Uncomment the scrapeWithRealAPI() method
- * 3. In scrapePrice(), replace:
- *    return generateMockPrice(title);
- *    with:
- *    if (config != null) return scrapeWithRealAPI(title);
- *    return generateMockPrice(title);
- * 4. Add to pom.xml (if not present):
- *    <dependency>
- *        <groupId>com.squareup.okhttp3</groupId>
- *        <artifactId>okhttp</artifactId>
- *        <version>4.11.0</version>
- *    </dependency>
- * 5. Update application.properties with real credentials
- * 6. Restart app - ScraperConfigLoader will automatically load the API config
- */
-
 package com.impulsepricechecker.service.scraper;
 
 import com.impulsepricechecker.model.PriceResult;
