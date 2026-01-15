@@ -74,10 +74,7 @@ public class EbayScraper implements Scraper {
             Request request = new Request.Builder()
                     .url(url)
                     .header("Authorization", "Bearer " + token)
-                    .header(
-                            "X-EBAY-C-ENDUSERCTX",
-                            "affiliateCampaignId=5339137464"
-                    )
+                    .header("X-EBAY-C-ENDUSERCTX", "affiliateCampaignId=5339137464")
                     .build();
             Response response = httpClient.newCall(request).execute();
             System.out.println("Response code: " + response.code());
@@ -97,11 +94,11 @@ public class EbayScraper implements Scraper {
             for (int i = 0; i < items.length(); i++) {
                 JSONObject item = items.getJSONObject(i);
                 System.out.println("Adding item " + Integer.toString(i));
-
+                String link = item.optString("itemAffiliateWebUrl", item.getString("itemWebUrl"));
                 results.add(new PriceResult(
                                 item.getString("title"),
                                 item.getJSONObject("price").getDouble("value"),
-                                item.getString("itemWebUrl"),
+                                link,
                                 item.getJSONObject("image").getString("imageUrl")
                         )
                 );
